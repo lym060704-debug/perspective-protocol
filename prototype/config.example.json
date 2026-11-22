@@ -1,0 +1,105 @@
+{
+  "defaults": {
+    "baseUrl": "https://openrouter.ai/api/v1",
+    "apiKeyEnv": "OPENROUTER_API_KEY",
+    "temperature": 0.7,
+    "maxTokens": 600,
+    "timeoutMs": 45000,
+    "headers": {
+      "HTTP-Referer": "http://127.0.0.1:8787",
+      "X-Title": "Perspective Protocol Prototype"
+    }
+  },
+  "host": {
+    "label": "Central-1",
+    "model": "REPLACE_HOST_MODEL",
+    "temperature": 0.5
+  },
+  "analyst": {
+    "label": "Analyst",
+    "model": "REPLACE_ANALYST_MODEL",
+    "temperature": 0.2
+  },
+  "nodes": [
+    {
+      "id": "n1",
+      "lineageId": "L1",
+      "lineage": "OpenAI 系",
+      "operatorId": "opA",
+      "operator": "Op-A",
+      "model": "REPLACE_L1_MODEL"
+    },
+    {
+      "id": "n2",
+      "lineageId": "L1",
+      "lineage": "OpenAI 系",
+      "operatorId": "opB",
+      "operator": "Op-B",
+      "model": "REPLACE_L1_MODEL"
+    },
+    {
+      "id": "n3",
+      "lineageId": "L2",
+      "lineage": "Anthropic 系",
+      "operatorId": "opC",
+      "operator": "Op-C",
+      "model": "REPLACE_L2_MODEL"
+    },
+    {
+      "id": "n4",
+      "lineageId": "L2",
+      "lineage": "Anthropic 系",
+      "operatorId": "opD",
+      "operator": "Op-D",
+      "model": "REPLACE_L2_MODEL"
+    },
+    {
+      "id": "n5",
+      "lineageId": "L3",
+      "lineage": "Google 系",
+      "operatorId": "opE",
+      "operator": "Op-E",
+      "model": "REPLACE_L3_MODEL"
+    },
+    {
+      "id": "n6",
+      "lineageId": "L3",
+      "lineage": "Google 系",
+      "operatorId": "opF",
+      "operator": "Op-F",
+      "model": "REPLACE_L3_MODEL"
+    },
+    {
+      "id": "n7",
+      "lineageId": "L4",
+      "lineage": "DeepSeek 系",
+      "operatorId": "opA",
+      "operator": "Op-A",
+      "model": "REPLACE_L4_MODEL"
+    },
+    {
+      "id": "n8",
+      "lineageId": "L4",
+      "lineage": "DeepSeek 系",
+      "operatorId": "opC",
+      "operator": "Op-C",
+      "model": "REPLACE_L4_MODEL"
+    },
+    {
+      "id": "n9",
+      "lineageId": "L5",
+      "lineage": "Qwen 系",
+      "operatorId": "opE",
+      "operator": "Op-E",
+      "model": "REPLACE_L5_MODEL"
+    },
+    {
+      "id": "n10",
+      "lineageId": "L5",
+      "lineage": "Qwen 系",
+      "operatorId": "opB",
+      "operator": "Op-B",
+      "model": "REPLACE_L5_MODEL"
+    }
+  ]
+}
