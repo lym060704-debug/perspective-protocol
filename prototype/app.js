@@ -870,6 +870,18 @@
 
   const SERVER_TIMEOUT_MS = 120_000;
 
+  // When the static GitHub Pages demo is paired with a temporary HTTPS
+  // tunnel, the URL can carry ?api=<tunnel-origin>&code=<access-code>.
+  // The key itself never reaches the browser.
+  const remoteParams = new URLSearchParams(location.search);
+  const API_BASE = String(remoteParams.get("api") || "").replace(/\/+$/, "");
+  const ACCESS_CODE = String(remoteParams.get("code") || "");
+
+  function apiTarget(url) {
+    if (!API_BASE || !url.startsWith("/api/")) return url;
+    return `${API_BASE}${url}`;
+  }
+
   function canUseCustom() {
     const server = state.custom.server;
     return Boolean(
@@ -884,8 +896,14 @@
     const timer = setTimeout(() => controller.abort(), timeoutMs);
 
     try {
-      const response = await fetch(url, {
+      const headers = {
+        ...(options.headers || {})
+      };
+      if (ACCESS_CODE) headers["X-Access-Code"] = ACCESS_CODE;
+
+      const response = await fetch(apiTarget(url), {
         ...options,
+        headers,
         signal: controller.signal
       });
 

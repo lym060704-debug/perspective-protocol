@@ -20,6 +20,13 @@ const MOCK = ["1", "true", "yes"].includes(
 );
 const CONFIG_PATH = join(ROOT, "config.json");
 const RUN_TTL_MS = 120_000;
+const ACCESS_CODE = String(process.env.ACCESS_CODE || "");
+const CORS_HEADERS = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+  "Access-Control-Allow-Headers": "Content-Type, X-Access-Code",
+  "Access-Control-Max-Age": "600"
+};
 const COMMITMENT_SPEC = {
   hash: "SHA-256",
   saltBytes: 16,
@@ -581,7 +588,8 @@ function json(data, status = 200) {
     status,
     headers: {
       "Content-Type": "application/json; charset=utf-8",
-      "Cache-Control": "no-store"
+      "Cache-Control": "no-store",
+      ...CORS_HEADERS
     }
   });
 }
@@ -613,6 +621,14 @@ function validateQuestion(value) {
    ------------------------------------------------------------------ */
 
 async function handleApi(request, url) {
+  if (request.method === "OPTIONS") {
+    return new Response(null, { status: 204, headers: CORS_HEADERS });
+  }
+
+  if (ACCESS_CODE && request.headers.get("x-access-code") !== ACCESS_CODE) {
+    return fail(401, "Unauthorized");
+  }
+
   if (url.pathname === "/api/health" && request.method === "GET") {
     const nodes = pool();
     return json({
