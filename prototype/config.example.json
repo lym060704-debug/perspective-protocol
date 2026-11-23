@@ -24,7 +24,7 @@
     {
       "id": "n1",
       "lineageId": "L1",
-      "lineage": "OpenAI 系",
+      "lineage": "OpenAI",
       "operatorId": "opA",
       "operator": "Op-A",
       "model": "REPLACE_L1_MODEL"
@@ -32,7 +32,7 @@
     {
       "id": "n2",
       "lineageId": "L1",
-      "lineage": "OpenAI 系",
+      "lineage": "OpenAI",
       "operatorId": "opB",
       "operator": "Op-B",
       "model": "REPLACE_L1_MODEL"
@@ -40,7 +40,7 @@
     {
       "id": "n3",
       "lineageId": "L2",
-      "lineage": "Anthropic 系",
+      "lineage": "Anthropic",
       "operatorId": "opC",
       "operator": "Op-C",
       "model": "REPLACE_L2_MODEL"
@@ -48,7 +48,7 @@
     {
       "id": "n4",
       "lineageId": "L2",
-      "lineage": "Anthropic 系",
+      "lineage": "Anthropic",
       "operatorId": "opD",
       "operator": "Op-D",
       "model": "REPLACE_L2_MODEL"
@@ -56,7 +56,7 @@
     {
       "id": "n5",
       "lineageId": "L3",
-      "lineage": "Google 系",
+      "lineage": "Google",
       "operatorId": "opE",
       "operator": "Op-E",
       "model": "REPLACE_L3_MODEL"
@@ -64,7 +64,7 @@
     {
       "id": "n6",
       "lineageId": "L3",
-      "lineage": "Google 系",
+      "lineage": "Google",
       "operatorId": "opF",
       "operator": "Op-F",
       "model": "REPLACE_L3_MODEL"
@@ -72,7 +72,7 @@
     {
       "id": "n7",
       "lineageId": "L4",
-      "lineage": "DeepSeek 系",
+      "lineage": "DeepSeek",
       "operatorId": "opA",
       "operator": "Op-A",
       "model": "REPLACE_L4_MODEL"
@@ -80,7 +80,7 @@
     {
       "id": "n8",
       "lineageId": "L4",
-      "lineage": "DeepSeek 系",
+      "lineage": "DeepSeek",
       "operatorId": "opC",
       "operator": "Op-C",
       "model": "REPLACE_L4_MODEL"
@@ -88,7 +88,7 @@
     {
       "id": "n9",
       "lineageId": "L5",
-      "lineage": "Qwen 系",
+      "lineage": "Qwen",
       "operatorId": "opE",
       "operator": "Op-E",
       "model": "REPLACE_L5_MODEL"
@@ -96,7 +96,7 @@
     {
       "id": "n10",
       "lineageId": "L5",
-      "lineage": "Qwen 系",
+      "lineage": "Qwen",
       "operatorId": "opB",
       "operator": "Op-B",
       "model": "REPLACE_L5_MODEL"

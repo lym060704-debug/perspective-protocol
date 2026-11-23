@@ -40,23 +40,23 @@ const DEFAULT_ANALYST_SYSTEM =
    ------------------------------------------------------------------ */
 
 const MOCK_POOL = [
-  mockNode("m1", "L1", "Alpha 系", "opA", "Op-A"),
-  mockNode("m2", "L1", "Alpha 系", "opB", "Op-B"),
-  mockNode("m3", "L2", "Beta 系", "opC", "Op-C"),
-  mockNode("m4", "L2", "Beta 系", "opD", "Op-D"),
-  mockNode("m5", "L3", "Gamma 系", "opE", "Op-E"),
-  mockNode("m6", "L3", "Gamma 系", "opF", "Op-F"),
-  mockNode("m7", "L4", "Delta 系", "opA", "Op-A"),
-  mockNode("m8", "L4", "Delta 系", "opC", "Op-C"),
-  mockNode("m9", "L5", "Epsilon 系", "opE", "Op-E"),
-  mockNode("m10", "L5", "Epsilon 系", "opB", "Op-B")
+  mockNode("m1", "L1", "Alpha", "opA", "Op-A"),
+  mockNode("m2", "L1", "Alpha", "opB", "Op-B"),
+  mockNode("m3", "L2", "Beta", "opC", "Op-C"),
+  mockNode("m4", "L2", "Beta", "opD", "Op-D"),
+  mockNode("m5", "L3", "Gamma", "opE", "Op-E"),
+  mockNode("m6", "L3", "Gamma", "opF", "Op-F"),
+  mockNode("m7", "L4", "Delta", "opA", "Op-A"),
+  mockNode("m8", "L4", "Delta", "opC", "Op-C"),
+  mockNode("m9", "L5", "Epsilon", "opE", "Op-E"),
+  mockNode("m10", "L5", "Epsilon", "opB", "Op-B")
 ];
 
 const MOCK_HOST = {
   label: "Mock Host",
   model: "mock-host",
-  lineage: "Host 系",
-  operator: "首答模型"
+  lineage: "Host lineage",
+  operator: "First-answer model"
 };
 
 function mockNode(id, lineageId, lineage, operatorId, operator) {
@@ -113,7 +113,7 @@ if (MOCK) {
 function loadLiveConfig() {
   if (!existsSync(CONFIG_PATH)) {
     configError =
-      "缺少 config.json。请复制 config.example.json 为 config.json，并填入模型与 API key 的环境变量名。";
+      "config.json is missing. Copy config.example.json to config.json and fill in the model and API-key environment names.";
     return;
   }
 
@@ -121,9 +121,9 @@ function loadLiveConfig() {
     const raw = JSON.parse(readFileSync(CONFIG_PATH, "utf8"));
     const problems = [];
 
-    if (!raw.host || !raw.host.model) problems.push("host.model 缺失");
+    if (!raw.host || !raw.host.model) problems.push("host.model is missing");
     if (!Array.isArray(raw.nodes) || raw.nodes.length < 2) {
-      problems.push("nodes 至少需要 2 个节点");
+      problems.push("nodes requires at least 2 nodes");
     }
 
     const ids = new Set();
@@ -133,30 +133,30 @@ function loadLiveConfig() {
     if (raw.analyst) allSections.push({ name: "analyst", section: raw.analyst });
     (raw.nodes || []).forEach((node, index) => {
       allSections.push({ name: `nodes[${index}]`, section: node });
-      if (!node.id) problems.push(`nodes[${index}].id 缺失`);
-      if (node.id && ids.has(node.id)) problems.push(`节点 id 重复：${node.id}`);
+      if (!node.id) problems.push(`nodes[${index}].id is missing`);
+      if (node.id && ids.has(node.id)) problems.push(`Duplicate node id: ${node.id}`);
       if (node.id) ids.add(node.id);
-      if (!node.model) problems.push(`节点 ${node.id || index} 缺少 model`);
-      if (!node.lineageId) problems.push(`节点 ${node.id || index} 缺少 lineageId`);
-      if (!node.lineage) problems.push(`节点 ${node.id || index} 缺少 lineage`);
-      if (!node.operatorId) problems.push(`节点 ${node.id || index} 缺少 operatorId`);
-      if (!node.operator) problems.push(`节点 ${node.id || index} 缺少 operator`);
+      if (!node.model) problems.push(`Node ${node.id || index} is missing model`);
+      if (!node.lineageId) problems.push(`Node ${node.id || index} is missing lineageId`);
+      if (!node.lineage) problems.push(`Node ${node.id || index} is missing lineage`);
+      if (!node.operatorId) problems.push(`Node ${node.id || index} is missing operatorId`);
+      if (!node.operator) problems.push(`Node ${node.id || index} is missing operator`);
     });
 
     for (const { name, section } of allSections) {
       const merged = mergeSection(raw, section);
-      if (!merged.baseUrl) problems.push(`${name}.baseUrl 缺失（可在 defaults 中设置）`);
-      if (!merged.model) problems.push(`${name}.model 缺失`);
+      if (!merged.baseUrl) problems.push(`${name}.baseUrl is missing (set it in defaults)`);
+      if (!merged.model) problems.push(`${name}.model is missing`);
       if (String(merged.model || "").includes("REPLACE")) {
-        problems.push(`${name}.model 仍是占位值`);
+        problems.push(`${name}.model is still a placeholder`);
       }
       if (merged.apiKeyEnv && !process.env[merged.apiKeyEnv]) {
-        problems.push(`缺少环境变量 ${merged.apiKeyEnv}`);
+        problems.push(`Missing environment variable ${merged.apiKeyEnv}`);
       }
     }
 
     if (problems.length) {
-      configError = problems.join("；");
+      configError = problems.join("; ");
       configProblems = problems;
     }
 
@@ -165,7 +165,7 @@ function loadLiveConfig() {
       `Config loaded: ${raw.nodes.length} nodes · ${new Set(raw.nodes.map((node) => node.lineageId)).size} lineages`
     );
   } catch (error) {
-    configError = `config.json 读取失败：${error.message}`;
+    configError = `Failed to read config.json: ${error.message}`;
   }
 }
 
@@ -200,7 +200,7 @@ function isReady() {
 function readyError() {
   return (
     configError ||
-    "模型未配置。请填写 config.json 和 .env，或使用 MOCK_LLM=1 测试界面。"
+    "Models are not configured. Fill in config.json and .env, or use MOCK_LLM=1 to test the UI."
   );
 }
 
@@ -241,9 +241,9 @@ function publicHost() {
 
   return {
     addr: addrFor({ id: "host", model }),
-    label: host.label || (MOCK ? MOCK_HOST.label : "首答模型"),
-    lineage: host.lineage || (MOCK ? MOCK_HOST.lineage : "Host 系"),
-    operator: host.operator || (MOCK ? MOCK_HOST.operator : "首答模型"),
+    label: host.label || (MOCK ? MOCK_HOST.label : "First-answer model"),
+    lineage: host.lineage || (MOCK ? MOCK_HOST.lineage : "Host lineage"),
+    operator: host.operator || (MOCK ? MOCK_HOST.operator : "First-answer model"),
     model
   };
 }
@@ -403,11 +403,11 @@ async function callChat(section, { system, user, temperature, maxTokens, timeout
   const apiKey = envName ? process.env[envName] : null;
 
   if (envName && !apiKey) {
-    throw new Error(`缺少环境变量 ${envName}`);
+    throw new Error(`Missing environment variable ${envName}`);
   }
 
   const baseUrl = String(section.baseUrl || "").replace(/\/+$/, "");
-  if (!baseUrl) throw new Error("baseUrl 未配置");
+  if (!baseUrl) throw new Error("baseUrl is not configured");
 
   const headers = {
     "Content-Type": "application/json",
@@ -439,7 +439,7 @@ async function callChat(section, { system, user, temperature, maxTokens, timeout
 
   if (!response.ok) {
     const detail = (await response.text()).slice(0, 300);
-    throw new Error(`模型 ${section.model} 返回 HTTP ${response.status}: ${detail}`);
+    throw new Error(`Model ${section.model} returned HTTP ${response.status}: ${detail}`);
   }
 
   const data = await response.json();
@@ -455,35 +455,35 @@ async function callChat(section, { system, user, temperature, maxTokens, timeout
     if (joined) return joined;
   }
 
-  throw new Error(`模型 ${section.model} 没有返回文本内容`);
+  throw new Error(`Model ${section.model} returned no text content`);
 }
 
 function mockHostAnswer(question) {
   return (
-    `（模拟首答）针对「${truncate(question, 60)}」，一个直接的回答是：` +
-    "它取决于你优先考虑目标、成本还是长期风险。若以效率优先，结论会偏向一边；" +
-    "若以公平或长期稳健优先，结论可能相反。"
+    `(Mock first answer) For “${truncate(question, 60)}”, a direct answer is: ` +
+    "it depends on whether you prioritise goals, cost or long-term risk. " +
+    "If efficiency comes first, the conclusion leans one way; if fairness or long-term resilience comes first, it may reverse."
   );
 }
 
 function mockNodeAnswer(question, node, mode, firstAnswer) {
   const angles = {
-    L1: "目标与成本",
-    L2: "风险与长期影响",
-    L3: "个体差异与具体情境",
-    L4: "证据强度与可验证性",
-    L5: "实施顺序与治理"
+    L1: "goals and cost",
+    L2: "risk and long-term effects",
+    L3: "individual differences and context",
+    L4: "evidence strength and verifiability",
+    L5: "implementation order and governance"
   };
-  const angle = angles[node.lineageId] || "不同约束条件";
+  const angle = angles[node.lineageId] || "different constraints";
   const base =
-    `（模拟回答 · ${node.lineage}）针对「${truncate(question, 50)}」，` +
-    `我从${angle}的角度看：这个问题没有一个适用于所有情境的答案，` +
-    "需要先说明前提，再比较代价与收益。";
+    `(Mock answer · ${node.lineage}) For “${truncate(question, 50)}”, ` +
+    `from the perspective of ${angle}: there is no answer that fits every context; ` +
+    "you need to state the premises first, then compare costs and benefits.";
 
   if (mode === "nonblind") {
     return (
-      `（模拟 · 非盲）首答给出的方向是「${truncate(firstAnswer, 46)}」。` +
-      `我部分同意，但它忽略了情境差异；更稳妥的判断应保留条件。${base}`
+      `(Mock · non-blind) The first answer points toward “${truncate(firstAnswer, 46)}”. ` +
+      `I partly agree, but it misses contextual differences; a more careful judgment should preserve the conditions. ${base}`
     );
   }
 
@@ -493,13 +493,13 @@ function mockNodeAnswer(question, node, mode, firstAnswer) {
 function mockAnalysis(question, answers) {
   return {
     consensus: [
-      "（模拟分析）多数视角都认为结论取决于前提与约束",
-      "（模拟分析）没有单一答案能覆盖所有情境"
+      "（Mock analysis）Most perspectives agree that the conclusion depends on premises and constraints",
+      "（Mock analysis）No single answer covers every context"
     ],
-    cruxTitle: "（模拟）关键分歧：代价与收益如何权衡",
+    cruxTitle: "（Mock）Key disagreement: how to weigh costs and benefits",
     cruxBody:
-      "（模拟）各节点在风险偏好、证据要求与实施顺序上给出了不同权重。这是服务器模拟文本，不代表真实模型分析。",
-    note: "服务器模拟模式，未调用真实模型。"
+      "（Mock）Nodes weight risk appetite, evidence requirements and implementation order differently. This is server-generated mock text, not a real model analysis.",
+    note: "Server mock mode; no real model was called."
   };
 }
 
@@ -592,19 +592,19 @@ function fail(status, message) {
 
 async function readJson(request) {
   const length = Number(request.headers.get("content-length") || 0);
-  if (length > 200_000) throw new Error("请求体过大");
+  if (length > 200_000) throw new Error("Request body is too large");
 
   try {
     return await request.json();
   } catch {
-    throw new Error("请求体不是有效的 JSON");
+    throw new Error("Request body is not valid JSON");
   }
 }
 
 function validateQuestion(value) {
   const question = String(value || "").trim();
-  if (question.length < 3) throw new Error("问题太短");
-  if (question.length > 2000) throw new Error("问题不能超过 2000 个字符");
+  if (question.length < 3) throw new Error("Question is too short");
+  if (question.length > 2000) throw new Error("Question cannot exceed 2,000 characters");
   return question;
 }
 
@@ -716,12 +716,12 @@ async function handleApi(request, url) {
       : randomSeed();
 
     if (mode === "nonblind" && !firstAnswer) {
-      return fail(400, "非盲对照需要 firstAnswer");
+      return fail(400, "Non-blind comparison requires firstAnswer");
     }
     if (!isReady()) return fail(503, readyError());
 
     const selection = selectNodes(seed, NODE_COUNT);
-    if (!selection.nodes.length) return fail(503, "没有可用节点");
+    if (!selection.nodes.length) return fail(503, "No usable nodes");
 
     const startedAt = Date.now();
 
@@ -796,7 +796,7 @@ async function handleApi(request, url) {
       },
       ms: Date.now() - startedAt,
       note:
-        "真实模式：盲态提示由本地代理构造，承诺为加盐 SHA-256 并绑定 nodeId + runId；链上时序仍是原型模拟。"
+        "Live mode: blind prompts are constructed by the local proxy; commitments are salted SHA-256 bound to nodeId + runId; on-chain timing remains simulated."
     });
   }
 
@@ -805,7 +805,7 @@ async function handleApi(request, url) {
     const runId = String(body.runId || "");
     const run = runs.get(runId);
 
-    if (!run) return fail(404, "这次运行不存在或已过期，请重新运行");
+    if (!run) return fail(404, "This run does not exist or has expired; run it again");
 
     runs.delete(runId);
     return json({
@@ -823,7 +823,7 @@ async function handleApi(request, url) {
     const question = validateQuestion(body.question);
     const answers = Array.isArray(body.answers) ? body.answers.slice(0, 10) : [];
 
-    if (!answers.length) return fail(400, "没有可分析的答案");
+    if (!answers.length) return fail(400, "No answers to analyze");
     if (!isReady()) return fail(503, readyError());
 
     const valid = answers.filter(
@@ -832,10 +832,10 @@ async function handleApi(request, url) {
     if (!valid.length) {
       return json({
         ok: true,
-        consensus: ["所有节点都未返回可用回答。"],
-        cruxTitle: "没有可分析的内容",
-        cruxBody: "请检查模型配置或重试。",
-        note: "没有成功回答。",
+        consensus: ["No node returned a usable answer."],
+        cruxTitle: "No content to analyze",
+        cruxBody: "Check the model configuration or retry.",
+        note: "No successful answers.",
         mock: MOCK
       });
     }
@@ -873,10 +873,10 @@ async function handleApi(request, url) {
     if (!parsed || !Array.isArray(parsed.consensus)) {
       return json({
         ok: true,
-        consensus: ["自动分析模型未返回可解析的 JSON。"],
-        cruxTitle: "未能生成关键分歧",
-        cruxBody: "请直接阅读上方各节点的回答。",
-        note: "分析格式解析失败。",
+        consensus: ["The analyst model returned unparseable JSON."],
+        cruxTitle: "Could not generate a key disagreement",
+        cruxBody: "Read the node answers above directly.",
+        note: "Analysis format could not be parsed.",
         mock: false
       });
     }
@@ -887,15 +887,15 @@ async function handleApi(request, url) {
         .filter((item) => typeof item === "string")
         .slice(0, 3),
       cruxTitle:
-        typeof parsed.cruxTitle === "string" ? parsed.cruxTitle : "关键分歧",
+        typeof parsed.cruxTitle === "string" ? parsed.cruxTitle : "Key disagreement",
       cruxBody:
         typeof parsed.cruxBody === "string" ? parsed.cruxBody : "",
-      note: "由分析模型生成，可能存在偏差。",
+      note: "Generated by the analyst model; may contain bias.",
       mock: false
     });
   }
 
-  return fail(404, "API 不存在");
+  return fail(404, "API not found");
 }
 
 /* ------------------------------------------------------------------

@@ -1,10 +1,10 @@
 <!doctype html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>去中心化 AI 视角协议 · 互动原型</title>
-  <meta name="description" content="盲态独立与多声部呈现的互动概念原型。">
+  <title>Decentralised AI Perspective Protocol · Interactive Prototype</title>
+  <meta name="description" content="An interactive concept prototype for blind independence and multi-voice presentation.">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%232550e8'/%3E%3Ctext x='32' y='43' font-family='Georgia,serif' font-size='28' fill='white' text-anchor='middle'%3EP2%3C/text%3E%3C/svg%3E">
   <link rel="stylesheet" href="styles.css">
   <script src="app.js" defer></script>
@@ -12,18 +12,18 @@
 <body>
   <header class="topbar">
     <div class="shell topbar-inner">
-      <a class="brand" href="#top" aria-label="回到顶部">
+      <a class="brand" href="#top" aria-label="Back to top">
         <span class="brand-mark" aria-hidden="true">P2</span>
         <span class="brand-text">
           <strong>Perspective Protocol</strong>
-          <span>去中心化 AI 视角协议</span>
+          <span>Decentralised AI Perspective Protocol</span>
         </span>
       </a>
       <div class="top-actions">
-        <span class="sim" title="链上流程与 TEE 为模拟；自定义模式可调用真实模型">原型 · 链上模拟</span>
+        <span class="sim" title="On-chain flow and TEE are simulated; custom mode can call live models">Prototype · on-chain simulation</span>
         <label class="fast-toggle">
           <input type="checkbox" id="fastMode">
-          <span>跳过动画</span>
+          <span>Skip animation</span>
         </label>
       </div>
     </div>
@@ -32,10 +32,10 @@
   <main class="shell" id="top">
     <section class="masthead">
       <p class="eyebrow"><span class="eyebrow-dot"></span> Decentralised AI Perspective Protocol</p>
-      <h1>先别相信第一个答案<span class="accent">。</span></h1>
+      <h1>Don't trust the first answer<span class="accent">.</span></h1>
       <div class="masthead-row">
-        <p>让不同血缘的模型（最多五个），在看不到首个答案的条件下独立作答。然后把分歧摊开。</p>
-        <p class="version">v0.1 · 概念原型<br>自定义可接真实模型 · 链上流程为模拟</p>
+        <p>Let models from different lineages (up to five) answer independently without seeing the first answer. Then lay out the disagreement.</p>
+        <p class="version">v0.1 · Concept prototype<br>Custom mode can call live models · on-chain flow simulated</p>
       </div>
     </section>
 
@@ -44,41 +44,41 @@
         <div class="panel-head">
           <div class="panel-title">
             <span class="index">01</span>
-            <h2 id="chatTitle">第一个答案</h2>
+            <h2 id="chatTitle">First answer</h2>
           </div>
-          <div class="tabs" id="questionTabs" role="tablist" aria-orientation="horizontal" aria-label="选择问题类型">
-            <button type="button" class="tab active" role="tab" aria-selected="true" tabindex="0" data-question="factual">事实型</button>
-            <button type="button" class="tab" role="tab" aria-selected="false" tabindex="-1" data-question="evaluative">评价型</button>
-            <button type="button" class="tab" role="tab" aria-selected="false" tabindex="-1" data-question="custom">自定义</button>
+          <div class="tabs" id="questionTabs" role="tablist" aria-orientation="horizontal" aria-label="Choose question type">
+            <button type="button" class="tab active" role="tab" aria-selected="true" tabindex="0" data-question="factual">Factual</button>
+            <button type="button" class="tab" role="tab" aria-selected="false" tabindex="-1" data-question="evaluative">Evaluative</button>
+            <button type="button" class="tab" role="tab" aria-selected="false" tabindex="-1" data-question="custom">Custom</button>
           </div>
         </div>
 
         <div class="custom-entry" id="customEntry" hidden>
           <div class="custom-head">
-            <label for="customQuestion">问自己的问题</label>
-            <span class="server-status" id="serverStatus">正在连接本地代理…</span>
+            <label for="customQuestion">Ask your own question</label>
+            <span class="server-status" id="serverStatus">Connecting to local proxy…</span>
           </div>
           <textarea
             id="customQuestion"
             rows="3"
             maxlength="2000"
-            placeholder="例如：远程办公会长期削弱团队创新能力吗？"
+            placeholder="e.g. Does remote work weaken team innovation over time?"
           ></textarea>
           <div class="custom-actions">
-            <button type="button" class="mini-btn" id="askBtn" disabled>生成首答</button>
-            <span class="fine">首答生成后，才能获取第二意见</span>
+            <button type="button" class="mini-btn" id="askBtn" disabled>Generate first answer</button>
+            <span class="fine">Generate the first answer before requesting a second opinion.</span>
           </div>
           <p class="custom-error" id="customError" hidden></p>
         </div>
 
         <div class="chat">
           <div class="msg user" id="userMsg">
-            <span class="who">你</span>
+            <span class="who">You</span>
             <p id="userQuery"></p>
           </div>
           <div class="msg ai" id="aiMsg">
             <div class="answer-head">
-              <span class="ai-agent"><span class="ai-dot"></span>首答 · <span id="anchorModelLabel">Central-1</span></span>
+              <span class="ai-agent"><span class="ai-dot"></span>First answer · <span id="anchorModelLabel">Central-1</span></span>
               <span class="tag warn" id="anchorBadge"></span>
             </div>
             <p class="answer-text" id="anchorText"></p>
@@ -86,20 +86,20 @@
           </div>
         </div>
 
-        <button type="button" class="change-question" id="changeQuestionBtn" hidden>换一个问题</button>
+        <button type="button" class="change-question" id="changeQuestionBtn" hidden>Change question</button>
 
         <p class="setup-warning" id="setupWarning" role="note" aria-live="polite" hidden></p>
 
         <div class="composer">
           <button type="button" class="cta" id="runBtn">
-            <span id="runLabel">获取第二意见</span>
+            <span id="runLabel">Get a second opinion</span>
             <span class="cta-icon" aria-hidden="true">→</span>
           </button>
 
           <label class="mode-row" for="nonBlind">
             <span class="mode-copy">
-              <strong>对照模式</strong>
-              <span>让节点先看到首答</span>
+              <strong>Comparison mode</strong>
+              <span>Let nodes see the first answer</span>
             </span>
             <input type="checkbox" id="nonBlind">
             <span class="switch" aria-hidden="true"></span>
@@ -108,24 +108,24 @@
         </div>
 
         <div class="invariant">
-          <span class="invariant-label">盲态不变量</span>
-          <p>盲态模式下，节点在提交承诺之前看不到第一个答案。</p>
+          <span class="invariant-label">Blind invariant</span>
+          <p>In blind mode, nodes cannot see the first answer before committing.</p>
         </div>
 
-        <p class="aside-foot">预设示例为罐头数据；自定义模式通过本地代理调用模型。链上流程仍为模拟。</p>
+        <p class="aside-foot">Preset examples use canned data; custom mode calls models through a local proxy. On-chain flow is still simulated.</p>
       </aside>
 
       <section class="stage" aria-labelledby="stageTitle">
         <div class="panel-head stage-head">
           <div class="panel-title">
             <span class="index">02</span>
-            <h2 id="stageTitle">协议现场</h2>
+            <h2 id="stageTitle">Protocol in action</h2>
           </div>
-          <span class="status" id="phaseStatus" data-state="idle" aria-live="polite">待命</span>
+          <span class="status" id="phaseStatus" data-state="idle" aria-live="polite">Standby</span>
         </div>
 
         <div class="empty-state" id="emptyState">
-          <svg class="motif" viewBox="0 0 460 120" role="img" aria-label="五个独立节点汇入一个封存请求，再展开为多个视角">
+          <svg class="motif" viewBox="0 0 460 120" role="img" aria-label="Five independent nodes feed a sealed request, then fan out into multiple perspectives">
             <g fill="none" stroke="currentColor" stroke-width="1">
               <path d="M62 22 C150 22 170 60 220 60" opacity=".34" />
               <path d="M62 41 C150 41 170 60 220 60" opacity=".27" />
@@ -152,26 +152,26 @@
             <circle cx="290" cy="73" r="3" fill="#9c978d" />
             <circle cx="290" cy="86" r="3" fill="#9c978d" />
           </svg>
-          <h3>一次盲态请求会发生什么？</h3>
-          <p class="empty-sub">最多五条独立模型血缘，在看不到锚点的条件下作答。</p>
+          <h3>What happens in one blind request?</h3>
+          <p class="empty-sub">Up to five independent model lineages answer without seeing the anchor.</p>
           <ol class="empty-steps">
             <li>
               <span class="step-num">01</span>
-              <strong>封存锚点</strong>
-              <p>盲态下，首个答案先封存，节点看不到它。</p>
+              <strong>Seal the anchor</strong>
+              <p>The first answer is sealed before any node sees it.</p>
             </li>
             <li>
               <span class="step-num">02</span>
-              <strong>盲态承诺</strong>
-              <p>每条血缘各选一个节点，答案先提交哈希。</p>
+              <strong>Blind commitment</strong>
+              <p>One node per lineage; answers are committed as hashes first.</p>
             </li>
             <li>
               <span class="step-num">03</span>
-              <strong>多声部呈现</strong>
-              <p>统一揭露后，比较共识、分歧与一致性。</p>
+              <strong>Multi-voice presentation</strong>
+              <p>After reveal, compare consensus, disagreement and agreement.</p>
             </li>
           </ol>
-          <p class="empty-hint">从左侧开始 · 约 3 秒</p>
+          <p class="empty-hint">Start on the left · about 3 seconds</p>
         </div>
 
         <div class="live" id="live" hidden>
@@ -181,7 +181,7 @@
 
           <section class="stage-block">
             <div class="block-head">
-              <h3>节点池</h3>
+              <h3>Node pool</h3>
               <p class="fine" id="poolSummary"></p>
             </div>
             <div class="lineage-list" id="poolGrid"></div>
@@ -189,7 +189,7 @@
 
           <section class="stage-block">
             <div class="block-head">
-              <h3>独立视角</h3>
+              <h3>Independent voices</h3>
               <p class="fine" id="selectionSummary"></p>
             </div>
             <div class="voices" id="voiceGrid"></div>
@@ -197,35 +197,35 @@
 
           <section class="readout" id="resultCard" hidden aria-labelledby="resultTitle">
             <div class="readout-head">
-              <h3 id="resultTitle">读懂这次回答</h3>
+              <h3 id="resultTitle">Make sense of this response</h3>
               <div class="badges" id="resultBadges"></div>
             </div>
 
             <div class="readout-grid">
               <section class="readout-cell">
-                <h4>共识</h4>
+                <h4>Consensus</h4>
                 <ul id="consensusList"></ul>
               </section>
               <section class="readout-cell crux">
-                <h4>关键分歧</h4>
+                <h4>Key disagreement</h4>
                 <p class="crux-title" id="cruxTitle"></p>
                 <p class="crux-body" id="cruxBody"></p>
               </section>
               <section class="readout-cell">
-                <h4>多样性</h4>
+                <h4>Diversity</h4>
                 <div class="stats" id="diversityReport"></div>
                 <p class="cell-note" id="diversityNote"></p>
               </section>
               <section class="readout-cell metric">
-                <h4 id="metricTitle">与首答一致度 <span class="fine">双条件示意值</span></h4>
+                <h4 id="metricTitle">Agreement with first answer <span class="fine">Two-condition illustrative value</span></h4>
                 <div id="metricBars"></div>
                 <p class="cell-note" id="metricNote"></p>
               </section>
             </div>
 
             <div class="actions">
-              <button type="button" class="text-btn" id="resetBtn">重设</button>
-              <button type="button" class="ghost-btn" id="againBtn">再抽一次</button>
+              <button type="button" class="text-btn" id="resetBtn">Reset</button>
+              <button type="button" class="ghost-btn" id="againBtn">Sample again</button>
             </div>
           </section>
         </div>
@@ -234,8 +234,8 @@
   </main>
 
   <footer class="shell page-footer">
-    <p>概念原型 · 预设示例为罐头数据；自定义模式可通过本地代理调用真实模型。区块链、VRF、TEE 与承诺时序仍为模拟。</p>
-    <p><a href="../perspective-protocol-whitepaper-zh-CN.md">技术白皮书草稿 · 简体版</a> · <a href="../perspective-protocol-whitepaper.md">原始繁体版</a></p>
+    <p>Concept prototype · preset examples use canned data; custom mode can call live models through a local proxy. Blockchain, VRF, TEE and commitment timing are simulated.</p>
+    <p><a href="../perspective-protocol-whitepaper-zh-CN.md">Technical whitepaper · Simplified Chinese</a> · <a href="../perspective-protocol-whitepaper.md">Original Traditional Chinese</a></p>
   </footer>
 </body>
 </html>
