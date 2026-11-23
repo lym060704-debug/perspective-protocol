@@ -986,6 +986,24 @@
     }
 
     if (!server.ok) {
+      if (API_BASE && !ACCESS_CODE) {
+        setServerStatus(
+          "off",
+          "Access code missing from the demo link",
+          "Open the full demo link, including &code=..."
+        );
+        return;
+      }
+
+      if (API_BASE) {
+        setServerStatus(
+          "off",
+          "Remote proxy not reachable · the tunnel may have stopped",
+          `${server.error || "Health check failed"} · ${API_BASE}/api/health`
+        );
+        return;
+      }
+
       setServerStatus(
         "off",
         "Local proxy not connected · run bun server.js, then open 127.0.0.1:8787"
